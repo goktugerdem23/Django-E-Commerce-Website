@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container my-5">
+  <h1 class="mb-4" style="color: wheat">
+    Add a Comment for {{ product.name }}
+  </h1>
+  <form action="" method="POST">
+    {% csrf_token %}
+
+    <!-- Comment Input -->
+    <div class="mb-3">
+      <label for="comment" class="form-label" style="color: wheat"
+        >Your Comment:</label
+      >
+      <textarea
+        class="form-control"
+        name="comment"
+        id="comment"
+        rows="4"
+        placeholder="Write your comment here..."
+        required
+      ></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Add Comment</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %} {% block content %} {%load static%}
+<div class="container my-5">
+  <h2 class="mb-4" style="color: wheat">Products</h2>
+  <div class="row">
+    {% for product in product_list %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img
+          src="{% if product.product_image %}{{ product.product_image.url }}{% else %}/static/images/bg.jpg{% endif %}"
+          alt=" {{product.name}} "
+          class="card-img-top"
+        />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ product.price }} TL</h6>
+          <p class="card-text">{{ product.description }}</p>
+
+          <!-- Actions -->
+          <div class="mt-auto">
+            <a
+              href="{% url 'tbeapp:addcomment' product.id %}"
+              class="btn btn-primary btn-sm mb-2"
+              >Add Comment</a
+            >
+            {%if product.owner.seller_name == request.user%}
+            <a
+              href="{% url 'tbeapp:deleteproduct' product.id %}"
+              class="btn btn-danger btn-sm mb-2"
+              >Delete Product</a
+            >
+            {%endif%}
+            <a
+              href="{% url 'tbeapp:payment' %}"
+              class="btn btn-success btn-sm mb-2"
+              >Buy</a
+            >
+            {% if product.owner.seller_name == request.user %}
+            <a
+              href="{% url 'tbeapp:updateproduct' product.id %}"
+              class="btn btn-warning"
+              >Update Product</a
+            >
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Comments Section -->
+        {% if product.customer_comment.all %}
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <h6 class="mt-2">Comments:</h6>
+          </li>
+          {% for comment in product.customer_comment.all %}
+          <li class="list-group-item">
+            <strong>{{ comment.user.username }}:</strong>
+            {{ comment.user_comment }}
+
+            <a
+              href="{% url 'tbeapp:deletecomment' product.id comment.id %}"
+              class="btn btn-sm btn-outline-danger float-end"
+              >Delete Comment</a
+            >
+          </li>
+          {% empty %}
+          <li class="list-group-item text-muted">No comments yet.</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

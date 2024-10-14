@@ -1,0 +1,11 @@
+body {
+  background-image: url("{%static 'tbeapp/images/akatsuki.jpg'%}");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-attachment: fixed;
+}
+
+.test {
+  color: aqua;
+}
